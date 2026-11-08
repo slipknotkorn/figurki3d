@@ -21,9 +21,15 @@ jobs:
           java-version: 17
       - name: Build debug APK
         working-directory: FigurineMaker
+        # сервер иногда не может скачать Gradle с первого раза — пробуем до 4 раз
         run: |
           chmod +x ./gradlew
-          ./gradlew assembleDebug --no-daemon
+          for i in 1 2 3 4; do
+            ./gradlew assembleDebug --no-daemon && exit 0
+            echo "Попытка $i не удалась, жду и пробую снова"
+            sleep 30
+          done
+          exit 1
       - uses: actions/upload-artifact@v4
         with:
           name: Figurki3D-v1.${{ github.run_number }}
