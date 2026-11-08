@@ -41,3 +41,14 @@ jobs:
           name: Фигурки 3D v1.${{ github.run_number }}
           files: FigurineMaker/app/build/outputs/apk/debug/*.apk
           make_latest: true
+      # Копия APK в ветке «apk» — чтобы файл можно было забрать обычным git (без скачивания релизов)
+      - name: Push APK to apk branch
+        run: |
+          mkdir apkout
+          cp FigurineMaker/app/build/outputs/apk/debug/*.apk apkout/
+          cd apkout
+          git init -q
+          git checkout -q -b apk
+          git add .
+          git -c user.name=github-actions -c user.email=actions@github.com commit -qm "APK v1.${{ github.run_number }}"
+          git push -q -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}" apk
