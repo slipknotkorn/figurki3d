@@ -23,5 +23,5 @@ jobs:
           ./gradlew assembleDebug --no-daemon
       - uses: actions/upload-artifact@v4
         with:
-          name: figurki-3d-apk
-          path: FigurineMaker/app/build/outputs/apk/debug/app-debug.apk
+          name: Figurki3D-v1.${{ github.run_number }}
+          path: FigurineMaker/app/build/outputs/apk/debug/*.apk
