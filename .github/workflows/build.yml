@@ -46,6 +46,7 @@ jobs:
         run: |
           mkdir apkout
           cp FigurineMaker/app/build/outputs/apk/debug/*.apk apkout/
+          echo "${{ github.run_number }}" > apkout/version.txt
           cd apkout
           git init -q
           git checkout -q -b apk
